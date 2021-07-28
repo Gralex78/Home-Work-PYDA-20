@@ -86,10 +86,9 @@ having min(p.amount) > 0
  --Для решения необходимо использовать декартово произведение.
  
 select a.city, b.city
-from city a, city b
-where a.city != b.city
-
-
+from city a
+cross join city b
+where a.city < b.city
 
 --ЗАДАНИЕ №6
 --Используя данные из таблицы rental о дате выдачи фильма в аренду (поле rental_date)
