@@ -8,8 +8,9 @@ SET search_path TO public;
 --Выведите уникальные названия регионов из таблицы адресов
 
 select distinct district 
-from address
-
+from address a
+;
+  
 
 
 --ЗАДАНИЕ №2
@@ -19,6 +20,7 @@ from address
 select distinct district 
 from address
 WHERE district like 'K%a' and district not like '% %'
+;
 
 
 
@@ -31,7 +33,8 @@ WHERE district like 'K%a' and district not like '% %'
 select payment_id, payment_date, amount 
 from payment
 where payment_date >= '17-03-2007' and payment_date < '20-03-2007' and amount > 1.00
-order by  payment_date asc  
+order by payment_date asc
+;
 
 
 
@@ -42,6 +45,7 @@ select payment_id, payment_date, amount
 from payment
 order by payment_date desc
 limit 10
+;
 
 
 
@@ -57,6 +61,8 @@ select last_name ||' '||first_name as "Фамилия и имя", email as "Электронная поч
        character_length(email) as "Длина Email", last_update::date as "Дата" 
 from customer
 order by last_update desc
+;
+
 
 
 --ЗАДАНИЕ №6
@@ -66,6 +72,12 @@ order by last_update desc
 select upper(last_name), upper(first_name) 
 from customer
 where first_name = 'Kelly' or first_name = 'Willie'
+;
+
+select last_name, first_name
+from customer
+where first_name = 'LINDA'
+;
 
 
 
@@ -79,6 +91,7 @@ where first_name = 'Kelly' or first_name = 'Willie'
 select film_id, title, description, rating, rental_rate 
 from film
 where rating = 'R' and rental_rate <= 3.00 or rating = 'PG-13' and rental_rate >= 4.00
+;
 
 
 
@@ -89,6 +102,7 @@ select film_id, title, description, character_length(description) as len_str
 from film
 order by character_length(description) desc
 limit (3)
+;
 
 
 
@@ -101,6 +115,7 @@ select customer_id, email as "Email",
 substring(email from 1 for strpos(email, '@')-1) as "Email before @",
 substring(email from strpos(email, '@')+1 for strpos(email, '@')+15) as "Email before @"
 from customer
+;
 
 
 
@@ -112,6 +127,5 @@ select customer_id, email as "Email",
 initcap(substring(email from 1 for strpos(email, '@')-1)) as "Email before @",
 initcap(substring(email from strpos(email, '@')+1 for strpos(email, '@')+15)) as "Email before @"
 from customer
-
-
+;
 
