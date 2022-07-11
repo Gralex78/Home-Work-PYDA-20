@@ -5,14 +5,14 @@ SET search_path TO public;
 --======== ОСНОВНАЯ ЧАСТЬ ==============
 
 --ЗАДАНИЕ №1
---Выведите для каждого покупателя его адрес проживания, 
---город и страну проживания.
+--Выведите для каждого покупателя его адрес проживания, город и страну проживания.
 
 select c.last_name ||' '|| c.first_name as "Фамилия и имя", a.address as "Адрес", c2.city as "Город", c3.country as "Страна"
 from customer c 
 left join address a on c.address_id = a.address_id
 left join city c2 on a.city_id = c2.city_id 
-left join country c3 on c2.country_id = c3.country_id 
+left join country c3 on c2.country_id = c3.country_id
+; 
 
 
 
@@ -22,21 +22,22 @@ left join country c3 on c2.country_id = c3.country_id
 select store_id as "ID магазина", count(customer_id) as "Количество покупателей"
 from customer c
 group by store_id
+;
 
 
---Доработайте запрос и выведите только те магазины, 
---у которых количество покупателей больше 300-от.
---Для решения используйте фильтрацию по сгруппированным строкам 
---с использованием функции агрегации.
+
+--Доработайте запрос и выведите только те магазины, у которых количество покупателей больше 300-от.
+--Для решения используйте фильтрацию по сгруппированным строкам с использованием функции агрегации.
 
 select store_id as "ID магазина", count(customer_id) as "Количество покупателей"
 from customer c
 group by store_id
 having count(customer_id) > 300
+;
 
 
 
--- Доработайте запрос, добавив в него информацию о городе магазина, 
+--Доработайте запрос, добавив в него информацию о городе магазина, 
 --а также фамилию и имя продавца, который работает в этом магазине.
 
 select s.store_id as "ID магазина", count(customer_id) as "Количество покупателей", 
@@ -48,12 +49,12 @@ left join staff s2 on s.store_id = s2.store_id
 left join customer c2 on c2.store_id = s2.store_id
 group by concat(s2.last_name, ' ', s2.first_name), s.store_id, c.city 
 having count(customer_id) > 300
+;
 
 
 
 --ЗАДАНИЕ №3
---Выведите ТОП-5 покупателей, 
---которые взяли в аренду за всё время наибольшее количество фильмов
+--Выведите ТОП-5 покупателей, которые взяли в аренду за всё время наибольшее количество фильмов
 
 select concat(c.last_name, ' ', c.first_name) as "Фамилия и имя покупателя", count(r.rental_id) as "Количество фильмов"
 from customer c 
@@ -61,6 +62,7 @@ left join rental r on r.customer_id = c.customer_id
 group by concat(c.last_name, ' ', c.first_name)
 order by count(r.rental_id) desc
 limit(5)
+;
 
 
 
@@ -78,27 +80,33 @@ left join customer c on c.customer_id = p.customer_id
 left join rental r on r.rental_id = p.rental_id
 group by last_first_name
 having min(p.amount) > 0
+;
+
 
 
 --ЗАДАНИЕ №5
 --Используя данные из таблицы городов составьте одним запросом всевозможные пары городов таким образом,
- --чтобы в результате не было пар с одинаковыми названиями городов. 
- --Для решения необходимо использовать декартово произведение.
+--чтобы в результате не было пар с одинаковыми названиями городов. 
+--Для решения необходимо использовать декартово произведение.
  
 select a.city, b.city
 from city a
 cross join city b
 where a.city < b.city
+;
+
+
 
 --ЗАДАНИЕ №6
 --Используя данные из таблицы rental о дате выдачи фильма в аренду (поле rental_date)
---и дате возврата фильма (поле return_date), 
---вычислите для каждого покупателя среднее количество дней, за которые покупатель возвращает фильмы.
+--и дате возврата фильма (поле return_date). 
+--Вычислите для каждого покупателя среднее количество дней, за которые покупатель возвращает фильмы.
  
 select customer_id, round(avg(date(return_date) - date(rental_date)), 2) as average_days_for_rent
 from rental 
 group by customer_id
 order by customer_id
+;
 
 
 
@@ -117,6 +125,7 @@ left join rental r on r.inventory_id = i.inventory_id
 left join payment p on p.rental_id = r.rental_id
 group by title, rating, genre, release_year, language_
 order by title
+;
 
 
 
@@ -134,6 +143,7 @@ left join payment p on p.rental_id = r.rental_id
 group by title, rating, genre, release_year, language_
 having count(r.rental_id) < 1 
 order by title
+;
 
 
 
@@ -149,7 +159,4 @@ select staff_id, count(rental_id),
   end as premium
 from payment p 
 group by staff_id
-
-
-
-
+;
