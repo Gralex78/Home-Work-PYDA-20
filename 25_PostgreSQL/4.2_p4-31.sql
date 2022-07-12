@@ -1,24 +1,24 @@
-create database название_базы_данных
+create database РЅР°Р·РІР°РЅРёРµ_Р±Р°Р·С‹_РґР°РЅРЅС‹С…
 
 create schema lecture_4
 
 set search_path to lecture_4
 
-======================== Создание таблиц ========================
-1. Создайте таблицу "автор" с полями:
+======================== РЎРѕР·РґР°РЅРёРµ С‚Р°Р±Р»РёС† ========================
+1. РЎРѕР·РґР°Р№С‚Рµ С‚Р°Р±Р»РёС†Сѓ "Р°РІС‚РѕСЂ" СЃ РїРѕР»СЏРјРё:
 - id 
-- имя
-- псевдоним (может не быть)
-- дата рождения
-- город рождения
-- родной язык
-* Используйте 
+- РёРјСЏ
+- РїСЃРµРІРґРѕРЅРёРј (РјРѕР¶РµС‚ РЅРµ Р±С‹С‚СЊ)
+- РґР°С‚Р° СЂРѕР¶РґРµРЅРёСЏ
+- РіРѕСЂРѕРґ СЂРѕР¶РґРµРЅРёСЏ
+- СЂРѕРґРЅРѕР№ СЏР·С‹Рє
+* РСЃРїРѕР»СЊР·СѓР№С‚Рµ 
     CREATE TABLE table_name (
         column_name TYPE column_constraint,
     );
-* для id подойдет serial, ограничение primary key
-* Имя и дата рождения - not null
-* город и язык - внешние ключи
+* РґР»СЏ id РїРѕРґРѕР№РґРµС‚ serial, РѕРіСЂР°РЅРёС‡РµРЅРёРµ primary key
+* РРјСЏ Рё РґР°С‚Р° СЂРѕР¶РґРµРЅРёСЏ - not null
+* РіРѕСЂРѕРґ Рё СЏР·С‹Рє - РІРЅРµС€РЅРёРµ РєР»СЋС‡Рё
 
 create table author (
 	author_id serial primary key,
@@ -31,9 +31,9 @@ create table author (
 	deleted int2 default 0 check (deleted in (0, 1))
 )
 
-1*  Создайте таблицы "Язык", "Город", "Страна".
-* для id подойдет serial, ограничение primary key
-* названия - not null и проверка на уникальность
+1*  РЎРѕР·РґР°Р№С‚Рµ С‚Р°Р±Р»РёС†С‹ "РЇР·С‹Рє", "Р“РѕСЂРѕРґ", "РЎС‚СЂР°РЅР°".
+* РґР»СЏ id РїРѕРґРѕР№РґРµС‚ serial, РѕРіСЂР°РЅРёС‡РµРЅРёРµ primary key
+* РЅР°Р·РІР°РЅРёСЏ - not null Рё РїСЂРѕРІРµСЂРєР° РЅР° СѓРЅРёРєР°Р»СЊРЅРѕСЃС‚СЊ
 
 create table city (
 	city_id serial primary key,
@@ -69,41 +69,41 @@ int8 = bigint
 	unique (inn, kpp, ogrn)  
 	primary key (inn, kpp, ogrn)  
 
-======================== Заполнение таблицы ========================
+======================== Р—Р°РїРѕР»РЅРµРЅРёРµ С‚Р°Р±Р»РёС†С‹ ========================
 
-2. Вставьте данные в таблицу с языками:
-'Русский', 'Французский', 'Японский'
-* Можно вставлять несколько строк одновременно:
-    INSERT INTO table (column1, column2, …)
+2. Р’СЃС‚Р°РІСЊС‚Рµ РґР°РЅРЅС‹Рµ РІ С‚Р°Р±Р»РёС†Сѓ СЃ СЏР·С‹РєР°РјРё:
+'Р СѓСЃСЃРєРёР№', 'Р¤СЂР°РЅС†СѓР·СЃРєРёР№', 'РЇРїРѕРЅСЃРєРёР№'
+* РњРѕР¶РЅРѕ РІСЃС‚Р°РІР»СЏС‚СЊ РЅРµСЃРєРѕР»СЊРєРѕ СЃС‚СЂРѕРє РѕРґРЅРѕРІСЂРµРјРµРЅРЅРѕ:
+    INSERT INTO table (column1, column2, вЂ¦)
     VALUES
-     (value1, value2, …),
-     (value1, value2, …) ,...;
+     (value1, value2, вЂ¦),
+     (value1, value2, вЂ¦) ,...;
 
 insert into language (language_name)
-values ('Русский'), ('Французский'), ('Японский')
+values ('Р СѓСЃСЃРєРёР№'), ('Р¤СЂР°РЅС†СѓР·СЃРєРёР№'), ('РЇРїРѕРЅСЃРєРёР№')
 
 insert into language (language_name)
-select unnest(array['Русский','Французский','Японский'])
+select unnest(array['Р СѓСЃСЃРєРёР№','Р¤СЂР°РЅС†СѓР·СЃРєРёР№','РЇРїРѕРЅСЃРєРёР№'])
 
 select * from "language" 
 
 insert into language (language_id, language_name)
-values (4, 'Немецкий') -- работать не будет.
+values (4, 'РќРµРјРµС†РєРёР№') -- СЂР°Р±РѕС‚Р°С‚СЊ РЅРµ Р±СѓРґРµС‚.
 
--- демонстрация работы счетчика и сброс счетчика
+-- РґРµРјРѕРЅСЃС‚СЂР°С†РёСЏ СЂР°Р±РѕС‚С‹ СЃС‡РµС‚С‡РёРєР° Рё СЃР±СЂРѕСЃ СЃС‡РµС‚С‡РёРєР°
 
 	
-2.1 Вставьте данные в таблицу со странами из таблиц country базы dvd-rental:
+2.1 Р’СЃС‚Р°РІСЊС‚Рµ РґР°РЅРЅС‹Рµ РІ С‚Р°Р±Р»РёС†Сѓ СЃРѕ СЃС‚СЂР°РЅР°РјРё РёР· С‚Р°Р±Р»РёС† country Р±Р°Р·С‹ dvd-rental:
 
 insert into country (country_name)
 select country from "dvd-rental".country
 
 select * from country
 
-2.2 Вставьте данные в таблицу с городами соблюдая связи из таблиц city базы dvd-rental:
+2.2 Р’СЃС‚Р°РІСЊС‚Рµ РґР°РЅРЅС‹Рµ РІ С‚Р°Р±Р»РёС†Сѓ СЃ РіРѕСЂРѕРґР°РјРё СЃРѕР±Р»СЋРґР°СЏ СЃРІСЏР·Рё РёР· С‚Р°Р±Р»РёС† city Р±Р°Р·С‹ dvd-rental:
 
 insert into city (city_name, country_id)
-select city, country_id from "dvd-rental".city -- будет ошибка
+select city, country_id from "dvd-rental".city -- Р±СѓРґРµС‚ РѕС€РёР±РєР°
 
 insert into city (city_name, country_id)
 select distinct on (city) city, country_id from "dvd-rental".city
@@ -120,7 +120,7 @@ from "dvd-rental".city
 where city = 'London'
 
 insert into city (city_id, city_name, country_id)
-values (1, 'Москва', 101)
+values (1, 'РњРѕСЃРєРІР°', 101)
 
 select * 
 from city
@@ -137,56 +137,56 @@ delete from city
 alter sequence city_city_id_seq restart with 1
 
 insert into city (city_name, country_id)
-values ('Москва', 101)
+values ('РњРѕСЃРєРІР°', 101)
 
 insert into city (city_id, city_name, country_id)
-values (2, 'Москва_1', 101)
+values (2, 'РњРѕСЃРєРІР°_1', 101)
 
 insert into city (city_name, country_id)
-values ('Москва_3', 101)
+values ('РњРѕСЃРєРІР°_3', 101)
 
-2.3 Вставьте данные в таблицу с авторами, идентификаторы языков и городов оставьте пустыми.
-Жюль Верн, 08.02.1828
-Михаил Лермонтов, 03.10.1814
-Харуки Мураками, 12.01.1949
+2.3 Р’СЃС‚Р°РІСЊС‚Рµ РґР°РЅРЅС‹Рµ РІ С‚Р°Р±Р»РёС†Сѓ СЃ Р°РІС‚РѕСЂР°РјРё, РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂС‹ СЏР·С‹РєРѕРІ Рё РіРѕСЂРѕРґРѕРІ РѕСЃС‚Р°РІСЊС‚Рµ РїСѓСЃС‚С‹РјРё.
+Р–СЋР»СЊ Р’РµСЂРЅ, 08.02.1828
+РњРёС…Р°РёР» Р›РµСЂРјРѕРЅС‚РѕРІ, 03.10.1814
+РҐР°СЂСѓРєРё РњСѓСЂР°РєР°РјРё, 12.01.1949
 
 insert into author (author_name, born_date, born_city)
-values ('Жюль Верн', '08.02.1828', 1),
-	('Михаил Лермонтов', '03.10.1814', 6),
-	('Харуки Мураками', '12.01.1949', 14)
+values ('Р–СЋР»СЊ Р’РµСЂРЅ', '08.02.1828', 1),
+	('РњРёС…Р°РёР» Р›РµСЂРјРѕРЅС‚РѕРІ', '03.10.1814', 6),
+	('РҐР°СЂСѓРєРё РњСѓСЂР°РєР°РјРё', '12.01.1949', 14)
 	
 select * from author a
 
 
-======================== Модификация таблицы ========================
+======================== РњРѕРґРёС„РёРєР°С†РёСЏ С‚Р°Р±Р»РёС†С‹ ========================
 
-3. Добавьте поле "идентификатор языка" в таблицу с авторами
+3. Р”РѕР±Р°РІСЊС‚Рµ РїРѕР»Рµ "РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЏР·С‹РєР°" РІ С‚Р°Р±Р»РёС†Сѓ СЃ Р°РІС‚РѕСЂР°РјРё
 * ALTER TABLE table_name 
   ADD COLUMN new_column_name TYPE;
 
--- добавление нового столбца
+-- РґРѕР±Р°РІР»РµРЅРёРµ РЅРѕРІРѕРіРѕ СЃС‚РѕР»Р±С†Р°
 alter table author add column language_id int2
 
 select * from author a
 
--- удаление столбца
+-- СѓРґР°Р»РµРЅРёРµ СЃС‚РѕР»Р±С†Р°
 
 alter table author drop column language_id
 
--- добавление ограничения not null
+-- РґРѕР±Р°РІР»РµРЅРёРµ РѕРіСЂР°РЅРёС‡РµРЅРёСЏ not null
 
 alter table author alter column language_id set not null
 
--- удаление ограничения not null
+-- СѓРґР°Р»РµРЅРёРµ РѕРіСЂР°РЅРёС‡РµРЅРёСЏ not null
 alter table author alter column language_id drop not null
 
--- добавление ограничения unique
+-- РґРѕР±Р°РІР»РµРЅРёРµ РѕРіСЂР°РЅРёС‡РµРЅРёСЏ unique
 alter table author add constraint language_id_unique unique (language_id)
 
--- удаление ограничения unique
+-- СѓРґР°Р»РµРЅРёРµ РѕРіСЂР°РЅРёС‡РµРЅРёСЏ unique
 alter table author drop constraint language_id_unique 
 
--- изменение типа данных столбца
+-- РёР·РјРµРЅРµРЅРёРµ С‚РёРїР° РґР°РЅРЅС‹С… СЃС‚РѕР»Р±С†Р°
 alter table author alter column language_id type text using(language_id::text)
 
 alter table author alter column language_id type int2 using(language_id::int2)
@@ -199,18 +199,18 @@ UPDATE pg_attribute SET atttypmod = 150+4
 WHERE attrelid = 'author'::regclass
 AND attname = 'author_name';
  
- 3* В таблице с авторами измените колонку language_id - внешний ключ - ссылка на языки
+ 3* Р’ С‚Р°Р±Р»РёС†Рµ СЃ Р°РІС‚РѕСЂР°РјРё РёР·РјРµРЅРёС‚Рµ РєРѕР»РѕРЅРєСѓ language_id - РІРЅРµС€РЅРёР№ РєР»СЋС‡ - СЃСЃС‹Р»РєР° РЅР° СЏР·С‹РєРё
  * ALTER TABLE table_name ADD CONSTRAINT constraint_name constraint_definition
  
 alter table author add constraint language_id_fkey foreign key 
 	(language_id) references language(language_id)
 
- ======================== Модификация данных ========================
+ ======================== РњРѕРґРёС„РёРєР°С†РёСЏ РґР°РЅРЅС‹С… ========================
 
-4. Обновите данные, проставив корректное языки писателям:
-Жюль Габриэль Верн - Французский
-Михаил Юрьевич Лермонтов - Российский
-Харуки Мураками - Японский
+4. РћР±РЅРѕРІРёС‚Рµ РґР°РЅРЅС‹Рµ, РїСЂРѕСЃС‚Р°РІРёРІ РєРѕСЂСЂРµРєС‚РЅРѕРµ СЏР·С‹РєРё РїРёСЃР°С‚РµР»СЏРј:
+Р–СЋР»СЊ Р“Р°Р±СЂРёСЌР»СЊ Р’РµСЂРЅ - Р¤СЂР°РЅС†СѓР·СЃРєРёР№
+РњРёС…Р°РёР» Р®СЂСЊРµРІРёС‡ Р›РµСЂРјРѕРЅС‚РѕРІ - Р РѕСЃСЃРёР№СЃРєРёР№
+РҐР°СЂСѓРєРё РњСѓСЂР°РєР°РјРё - РЇРїРѕРЅСЃРєРёР№
 * UPDATE table
   SET column1 = value1,
    column2 = value2 ,...
@@ -239,14 +239,14 @@ update author
 set language_id = 1
 where author_id in (3, 15, 20, 50)
 
-4*. Дополните оставшие связи по городам:
+4*. Р”РѕРїРѕР»РЅРёС‚Рµ РѕСЃС‚Р°РІС€РёРµ СЃРІСЏР·Рё РїРѕ РіРѕСЂРѕРґР°Рј:
 
 
 
 
- ======================== Удаление данных ========================
+ ======================== РЈРґР°Р»РµРЅРёРµ РґР°РЅРЅС‹С… ========================
  
-5. Удалите Лермонтова
+5. РЈРґР°Р»РёС‚Рµ Р›РµСЂРјРѕРЅС‚РѕРІР°
 
 update author
 set deleted = 1 
@@ -265,7 +265,7 @@ where author_id = 2
 
 select * from author
 
-5.1 Удалите все города
+5.1 РЈРґР°Р»РёС‚Рµ РІСЃРµ РіРѕСЂРѕРґР°
 
 delete from city 
 
@@ -277,9 +277,9 @@ where language_id = 1
 drop table author
 
 insert into author (author_name, born_date, born_city, language_id)
-values ('Жюль Верн', '08.02.1828', 603, 1),
-	('Михаил Лермонтов', '03.10.1814', 604, 2),
-	('Харуки Мураками', '12.01.1949', 605, 3)
+values ('Р–СЋР»СЊ Р’РµСЂРЅ', '08.02.1828', 603, 1),
+	('РњРёС…Р°РёР» Р›РµСЂРјРѕРЅС‚РѕРІ', '03.10.1814', 604, 2),
+	('РҐР°СЂСѓРєРё РњСѓСЂР°РєР°РјРё', '12.01.1949', 605, 3)
 	
 select * from "language" l
 
@@ -291,7 +291,7 @@ drop table country
 
 drop schema lecture_4
 
-drop database postgres  -- не выполнять :) 
+drop database postgres  -- РЅРµ РІС‹РїРѕР»РЅСЏС‚СЊ :) 
 
 format c:\ 
 
@@ -318,8 +318,8 @@ having count(r.rental_id) = 0
 
 select p.staff_id, count(p.amount),
 	case 
-		when count(p.amount) > 7300 then 'Да'
-		else 'Нет'
+		when count(p.amount) > 7300 then 'Р”Р°'
+		else 'РќРµС‚'
 	end
 from payment p
 group by p.staff_id
