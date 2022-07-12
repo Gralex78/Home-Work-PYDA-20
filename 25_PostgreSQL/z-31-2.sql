@@ -13,11 +13,11 @@ join customer c on c.store_id = s.store_id
 join rental r on r.customer_id = c.customer_id
 where city_id = 576
 
--- Доработайте запрос, добавив в него информацию о городе магазина, 
---а также фамилию и имя продавца, который работает в этом магазине.
+-- Р”РѕСЂР°Р±РѕС‚Р°Р№С‚Рµ Р·Р°РїСЂРѕСЃ, РґРѕР±Р°РІРёРІ РІ РЅРµРіРѕ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РіРѕСЂРѕРґРµ РјР°РіР°Р·РёРЅР°, 
+--Р° С‚Р°РєР¶Рµ С„Р°РјРёР»РёСЋ Рё РёРјСЏ РїСЂРѕРґР°РІС†Р°, РєРѕС‚РѕСЂС‹Р№ СЂР°Р±РѕС‚Р°РµС‚ РІ СЌС‚РѕРј РјР°РіР°Р·РёРЅРµ.
 
-select c.store_id as "ID магазина", count(1) as "Количество покупателей", 
-       ct.city as "Город магазина", s.last_name ||' '|| s.first_name as "Фамилия и имя продавца"
+select c.store_id as "ID РјР°РіР°Р·РёРЅР°", count(1) as "РљРѕР»РёС‡РµСЃС‚РІРѕ РїРѕРєСѓРїР°С‚РµР»РµР№", 
+       ct.city as "Р“РѕСЂРѕРґ РјР°РіР°Р·РёРЅР°", s.last_name ||' '|| s.first_name as "Р¤Р°РјРёР»РёСЏ Рё РёРјСЏ РїСЂРѕРґР°РІС†Р°"
 from customer c 
 join store st on c.store_id = st.store_id 
 join staff s on st.store_id = s.store_id 
@@ -26,7 +26,7 @@ join city ct on a.city_id = ct.city_id
 group by c.store_id, s.staff_id, ct.city_id
 having count(1) > 300
 
-классический DDL :) 
+РєР»Р°СЃСЃРёС‡РµСЃРєРёР№ DDL :) 
 
 select * from film f
 
@@ -38,8 +38,8 @@ primary key (actor_id, film_id) = unique (actor_id, film_id) + not null + index
 
 create table film_new (like "dvd-rental".film including defaults)
 
-select c.store_id as "ID магазина", count(1) as "Количество покупателей", ct.city as "Город магазина", 
-s.last_name ||' '|| s.first_name as "Фамилия и имя продавца"
+select c.store_id as "ID РјР°РіР°Р·РёРЅР°", count(1) as "РљРѕР»РёС‡РµСЃС‚РІРѕ РїРѕРєСѓРїР°С‚РµР»РµР№", ct.city as "Р“РѕСЂРѕРґ РјР°РіР°Р·РёРЅР°", 
+s.last_name ||' '|| s.first_name as "Р¤Р°РјРёР»РёСЏ Рё РёРјСЏ РїСЂРѕРґР°РІС†Р°"
 from customer c 
 join store st on c.store_id = st.store_id 
 join staff s on st.store_id = s.store_id 
@@ -47,9 +47,9 @@ join address a on st.address_id = a.address_id
 join city ct on a.city_id = ct.city_id 
 group by c.store_id, s.first_name, s.last_name, ct.city
 
-select f.title as "Название", f.rating as "Рейтинг", c.name as "Жанр", 
-       f.release_year::text as "Год выпуска", l.name as "Язык", count(r.rental_id) as "Количество аренд",
-       sum(p.amount) as "Общая стоимость аренды" 
+select f.title as "РќР°Р·РІР°РЅРёРµ", f.rating as "Р РµР№С‚РёРЅРі", c.name as "Р–Р°РЅСЂ", 
+       f.release_year::text as "Р“РѕРґ РІС‹РїСѓСЃРєР°", l.name as "РЇР·С‹Рє", count(r.rental_id) as "РљРѕР»РёС‡РµСЃС‚РІРѕ Р°СЂРµРЅРґ",
+       sum(p.amount) as "РћР±С‰Р°СЏ СЃС‚РѕРёРјРѕСЃС‚СЊ Р°СЂРµРЅРґС‹" 
 from film f 
 left join film_category fc on fc.film_id = f.film_id 
 left join category c on c.category_id = fc.category_id 
@@ -58,5 +58,5 @@ left join inventory i on i.film_id  = f.film_id
 left join rental r on r.inventory_id = i.inventory_id
 left join payment p on p.rental_id = r.rental_id 
 group by f.film_id, c.category_id, l.language_id   
-having count(r.rental_id) = 0 -- добавила, не работает, ничего не выводит
+having count(r.rental_id) = 0 -- РґРѕР±Р°РІРёР»Р°, РЅРµ СЂР°Р±РѕС‚Р°РµС‚, РЅРёС‡РµРіРѕ РЅРµ РІС‹РІРѕРґРёС‚
 order by f.title
